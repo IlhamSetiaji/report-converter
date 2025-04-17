@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5505:8002"
+    volumes:
+      - storage_data:/app/storage
+      # Add shared memory for LibreOffice
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      # Required for LibreOffice headless mode
+      - DISPLAY=:99
+    # Add health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  storage_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: "/root/data/report-converter/storage"
+      o: bind
