@@ -28,7 +28,7 @@ func NewGinServer(db database.Database, conf config.Config, log logger.Logger, v
 	app.Use(gin.Recovery())
 	app.Use(gin.Logger())
 
-	app.RedirectTrailingSlash = false
+	// app.RedirectTrailingSlash = false
 
 	return &ginServer{
 		app:       app,
