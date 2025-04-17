@@ -28,6 +28,8 @@ func NewGinServer(db database.Database, conf config.Config, log logger.Logger, v
 	app.Use(gin.Recovery())
 	app.Use(gin.Logger())
 
+	app.RedirectTrailingSlash = false
+
 	return &ginServer{
 		app:       app,
 		db:        db,
@@ -71,10 +73,10 @@ func (g *ginServer) initializeTemplateHandler() {
 	templateUseCase := usecase.NewTemplateUseCase(templateRepository, templateDTO)
 	templateHandler := handler.NewTemplateHandler(templateUseCase, g.log, g.validator, g.conf)
 
-	templateRoutes := g.app.Group("/api/v1/templates")
-	templateRoutes.POST("/store", templateHandler.CreateTemplate)
-	templateRoutes.POST("/generate-pdf", templateHandler.GeneratePDF)
-	templateRoutes.GET("/", templateHandler.FindAllTemplate)
-	templateRoutes.GET("/:id", templateHandler.FindTemplateByID)
-	templateRoutes.DELETE("/:id", templateHandler.DeleteTemplateByID)
+	templateRoutes := g.app.Group("/api/v1/templates/")
+	templateRoutes.POST("store", templateHandler.CreateTemplate)
+	templateRoutes.POST("generate-pdf", templateHandler.GeneratePDF)
+	templateRoutes.GET("", templateHandler.FindAllTemplate)
+	templateRoutes.GET(":id", templateHandler.FindTemplateByID)
+	templateRoutes.DELETE(":id", templateHandler.DeleteTemplateByID)
 }
