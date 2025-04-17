@@ -15,11 +15,11 @@ services:
       # Required for LibreOffice headless mode
       - DISPLAY=:99
     # Add health check
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
 
 volumes:
   storage_data:
