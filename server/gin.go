@@ -72,7 +72,7 @@ func (g *ginServer) initializeTemplateHandler() {
 	templateHandler := handler.NewTemplateHandler(templateUseCase, g.log, g.validator, g.conf)
 
 	templateRoutes := g.app.Group("/api/v1/templates")
-	templateRoutes.POST("/", templateHandler.CreateTemplate)
+	templateRoutes.POST("/store", templateHandler.CreateTemplate)
 	templateRoutes.POST("/generate-pdf", templateHandler.GeneratePDF)
 	templateRoutes.GET("/", templateHandler.FindAllTemplate)
 	templateRoutes.GET("/:id", templateHandler.FindTemplateByID)
