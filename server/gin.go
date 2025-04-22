@@ -3,6 +3,7 @@ package server
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/IlhamSetiaji/report-converter/config"
 	"github.com/IlhamSetiaji/report-converter/database"
@@ -12,6 +13,7 @@ import (
 	"github.com/IlhamSetiaji/report-converter/repository"
 	"github.com/IlhamSetiaji/report-converter/usecase"
 	"github.com/IlhamSetiaji/report-converter/validator"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +29,14 @@ func NewGinServer(db database.Database, conf config.Config, log logger.Logger, v
 	app := gin.New()
 	app.Use(gin.Recovery())
 	app.Use(gin.Logger())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"https://prasi.avolut.com", "https://wareify.avolut.com", "https://eam.avolut.com"}, // Frontend URL
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// app.RedirectTrailingSlash = false
 
