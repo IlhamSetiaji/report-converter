@@ -1,7 +1,7 @@
 server:
   port: 8002
   name: report-converter
-  url: http://localhost:8002
+  url: https://converter-report.avolut.com
   os: windows
   
 db:
